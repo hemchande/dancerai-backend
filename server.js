@@ -11,6 +11,8 @@ const PORT = process.env.PORT || 8000;
 
 // Middleware
 app.use(cors({
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
   origin: 'http://localhost:3000', // or '*' for all origins (less secure)
   credentials: true, // if you need cookies/auth headers
 }));
@@ -27,6 +29,12 @@ mongoose.connect(MONGODB_URI, {
 })
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('MongoDB connection error:', err));
+
+
+
+app.get('/', (req, res) => {
+  res.send('CORS is set!');
+});
 
 // Public routes (no auth required)
 app.use('/auth', authRoutes);
