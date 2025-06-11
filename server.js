@@ -7,15 +7,21 @@ const aiReportRoutes = require('./routes/aiReports');
 const auth = require('./middleware/auth');
 
 const app = express();
+
+const router = express.Router();
+
+
+
+
 const PORT = process.env.PORT || 8000;
 
 
-app.use(cors({
+router.use(cors({
   origin: 'http://localhost:3000', // Set the allowed origin for requests http://localhost:3000 https://connectarts-frontend-2.onrender.com
   credentials: true
 }));
 
-app.use(function(req, res, next) {
+router.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');// http://localhost:3000 https://connectarts-frontend-2.onrender.com
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.header(
@@ -40,9 +46,9 @@ app.use(function(req, res, next) {
 //   next();
 // });
 
-app.use(express.json({ limit: '50mb' }));
-app.use(express.urlencoded({ limit: '50mb', extended: true }));
-app.options('*', cors(corsOptions));
+router.use(express.json({ limit: '50mb' }));
+router.use(express.urlencoded({ limit: '50mb', extended: true }));
+router.options('*', cors(corsOptions));
 
 
 
@@ -60,19 +66,19 @@ mongoose.connect(MONGODB_URI, {
 
 
 
-app.get('/', (req, res) => {
+router.get('/', (req, res) => {
   res.send('CORS is set!');
 });
 
 // Public routes (no auth required)
-app.use('/auth', authRoutes);
+router.use('/auth', authRoutes);
 
 // Protected routes (auth required)
-app.use('/chat', auth, chatRoutes);
-app.use('/ai-reports', auth, aiReportRoutes);
+router.use('/chat', auth, chatRoutes);
+router.use('/ai-reports', auth, aiReportRoutes);
 
 // Error handling middleware
-app.use((err, req, res, next) => {
+router.use((err, req, res, next) => {
   console.error(err.stack);
   if (err.type === 'entity.too.large') {
     return res.status(413).json({ message: 'Request entity too large' });
@@ -86,4 +92,4 @@ app.use((err, req, res, next) => {
 // });
 
 // Export the Express API
-module.exports = app;
+module.exports = router;
