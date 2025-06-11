@@ -9,13 +9,29 @@ const auth = require('./middleware/auth');
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-// Middleware
-app.use(cors( {
-  origin: 'http://localhost:3000', // or function for multiple origins
-  methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
-  allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
-  credentials: true, // if you need to send cookies or HTTP auth
+
+app.use(cors({
+  origin: 'http://localhost:3000', // Set the allowed origin for requests http://localhost:3000 https://connectarts-frontend-2.onrender.com
+  credentials: true
 }));
+
+app.use(function(req, res, next) {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');// http://localhost:3000 https://connectarts-frontend-2.onrender.com
+  res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept'
+  );
+  next();
+});
+
+// Middleware
+// app.use(cors( {
+//   origin: 'http://localhost:3000', // or function for multiple origins
+//   methods: ['GET', 'POST', 'PUT', 'DELETE', 'PATCH', 'OPTIONS'],
+//   allowedHeaders: ['Origin', 'X-Requested-With', 'Content-Type', 'Accept', 'Authorization'],
+//   credentials: true, // if you need to send cookies or HTTP auth
+// }));
 
 // app.use((req, res, next) => {
 //   res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
@@ -27,6 +43,8 @@ app.use(cors( {
 app.use(express.json({ limit: '50mb' }));
 app.use(express.urlencoded({ limit: '50mb', extended: true }));
 app.options('*', cors(corsOptions));
+
+
 
 
 // MongoDB Connection with proper options
@@ -63,9 +81,9 @@ app.use((err, req, res, next) => {
 });
 
 // Start the server
-app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
-});
+// app.listen(PORT, () => {
+//   console.log(`Server is running on port ${PORT}`);
+// });
 
 // Export the Express API
 module.exports = app;
