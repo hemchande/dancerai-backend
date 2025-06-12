@@ -5,6 +5,7 @@ const chatRoutes = require('./routes/chat');
 const authRoutes = require('./routes/auth');
 const aiReportRoutes = require('./routes/aiReports');
 const auth = require('./middleware/auth');
+const { applyTimestamps } = require('./models/ChatSession');
 
 const app = express();
 
@@ -16,12 +17,12 @@ const router = express.Router();
 const PORT = process.env.PORT || 8000;
 
 
-router.use(cors({
+app.use(cors({
   origin: 'http://localhost:3000', // Set the allowed origin for requests http://localhost:3000 https://connectarts-frontend-2.onrender.com
   credentials: true
 }));
 
-router.use(function(req, res, next) {
+app.use(function(req, res, next) {
   res.header('Access-Control-Allow-Origin', 'http://localhost:3000');// http://localhost:3000 https://connectarts-frontend-2.onrender.com
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.header(
@@ -46,9 +47,9 @@ router.use(function(req, res, next) {
 //   next();
 // });
 
-router.use(express.json({ limit: '50mb' }));
-router.use(express.urlencoded({ limit: '50mb', extended: true }));
-router.options('*', cors(corsOptions));
+app.use(express.json({ limit: '50mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true }));
+
 
 
 
@@ -66,19 +67,19 @@ mongoose.connect(MONGODB_URI, {
 
 
 
-router.get('/', (req, res) => {
+app.get('/', (req, res) => {
   res.send('CORS is set!');
 });
 
 // Public routes (no auth required)
-router.use('/auth', authRoutes);
+app.use('/auth', authRoutes);
 
 // Protected routes (auth required)
-router.use('/chat', auth, chatRoutes);
-router.use('/ai-reports', auth, aiReportRoutes);
+app.use('/chat', auth, chatRoutes);
+app.use('/ai-reports', auth, aiReportRoutes);
 
 // Error handling middleware
-router.use((err, req, res, next) => {
+app.use((err, req, res, next) => {
   console.error(err.stack);
   if (err.type === 'entity.too.large') {
     return res.status(413).json({ message: 'Request entity too large' });
@@ -87,9 +88,9 @@ router.use((err, req, res, next) => {
 });
 
 // Start the server
-// app.listen(PORT, () => {
-//   console.log(`Server is running on port ${PORT}`);
-// });
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
+});
 
 // Export the Express API
-module.exports = router;
+module.exports = app;
