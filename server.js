@@ -16,7 +16,7 @@ const server = http.createServer(app);
 // Create Socket.IO server with CORS configuration
 const io = new Server(server, {
   cors: {
-    origin: "http://localhost:3000",
+    origin: "https://dancer-a-inew-lvyt5gtih-hemchandeishagmailcoms-projects.vercel.app",
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -27,7 +27,7 @@ const router = express.Router();
 const PORT = process.env.PORT || 8000;
 
 app.use(cors({
-  origin: 'http://localhost:3000', // Set the allowed origin for requests http://localhost:3000 https://connectarts-frontend-2.onrender.com
+  origin: 'https://dancer-a-inew-lvyt5gtih-hemchandeishagmailcoms-projects.vercel.app', // Set the allowed origin for requests http://localhost:3000 https://connectarts-frontend-2.onrender.com
   credentials: true
 }));
 
