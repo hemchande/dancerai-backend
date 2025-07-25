@@ -32,7 +32,7 @@ app.use(cors({
 }));
 
 app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'http://localhost:3000');// http://localhost:3000 https://connectarts-frontend-2.onrender.com
+  res.header('Access-Control-Allow-Origin', 'https://dancer-a-inew-lvyt5gtih-hemchandeishagmailcoms-projects.vercel.app');// http://localhost:3000 https://connectarts-frontend-2.onrender.com
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.header(
     'Access-Control-Allow-Headers',
