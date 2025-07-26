@@ -16,7 +16,7 @@ const server = http.createServer(app);
 // Create Socket.IO server with CORS configuration
 const io = new Server(server, {
   cors: {
-    origin: "https://dancer-a-inew-lvyt5gtih-hemchandeishagmailcoms-projects.vercel.app",
+    origin: "https://dancer-a-inew.vercel.app/",
     methods: ["GET", "POST"],
     credentials: true
   }
@@ -27,12 +27,12 @@ const router = express.Router();
 const PORT = process.env.PORT || 8000;
 
 app.use(cors({
-  origin: 'https://dancer-a-inew-lvyt5gtih-hemchandeishagmailcoms-projects.vercel.app', // Set the allowed origin for requests http://localhost:3000 https://connectarts-frontend-2.onrender.com
+  origin: 'https://dancer-a-inew.vercel.app/', // Set the allowed origin for requests http://localhost:3000 https://connectarts-frontend-2.onrender.com
   credentials: true
 }));
 
 app.use(function(req, res, next) {
-  res.header('Access-Control-Allow-Origin', 'https://dancer-a-inew-lvyt5gtih-hemchandeishagmailcoms-projects.vercel.app');// http://localhost:3000 https://connectarts-frontend-2.onrender.com
+  res.header('Access-Control-Allow-Origin', 'https://dancer-a-inew.vercel.app/');// http://localhost:3000 https://connectarts-frontend-2.onrender.com
   res.setHeader('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE');
   res.header(
     'Access-Control-Allow-Headers',
